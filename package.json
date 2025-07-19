@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@prisma/client": "^6.12.0",
     "@quixo3/prisma-session-store": "^3.1.13",
     "bcryptjs": "^3.0.2",
     "dotenv": "^17.2.0",
