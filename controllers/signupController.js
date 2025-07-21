@@ -4,7 +4,7 @@ const bcrypt = require("bcryptjs");
 const { body, validationResult } = require("express-validator");
 
 exports.displaySignUp = (req, res, next) => {
-    res.render("sign-up")
+    res.render("sign-up");
 }
 
 const validateSignup = [
@@ -21,24 +21,18 @@ const validateSignup = [
 exports.signup = [
     validateSignup,
     async (req, res, next) => {
-        // console.log(req.body);  
-        // console.log(req.body.username); 
-        // console.log(req.body.password);
         const error = validationResult(req);
-
         if (!error.isEmpty()) {
             return res.status(400).render("sign-up", {
                 errors: error.array()
             });
         }
-
         await prisma.user.create({
             data: {
                 username: req.body.username,
                 password: await bcrypt.hash(req.body.password, 10)
             }
         });
-        // console.log("approved!");
     }
 ]
 
