@@ -27,12 +27,18 @@ exports.signup = [
                 errors: error.array()
             });
         }
-        await prisma.user.create({
-            data: {
-                username: req.body.username,
-                password: await bcrypt.hash(req.body.password, 10)
-            }
-        });
+        try {
+            await prisma.user.create({
+                data: {
+                    username: req.body.username,
+                    password: await bcrypt.hash(req.body.password, 10)
+                }
+            });
+        } catch {
+            res.render("sign-up", {
+                usernameTaken: "This username is taken, please choose another one."
+            });
+        }
     }
 ]
 

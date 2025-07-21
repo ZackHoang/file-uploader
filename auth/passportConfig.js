@@ -19,13 +19,12 @@ passport.use(
             if (!match) {
                 return done(null, false, { message: "Incorrect username and/or password" });
             }
-            delete req.session.messages;
             return done(null, user);
         } catch(e) {
             return done(e);
         }
     })
-);
+); 
 
 passport.serializeUser((user, done) => {
     done(null, user.id);
@@ -44,7 +43,16 @@ passport.deserializeUser(async (id, done) => {
     }
 });
 
+exports.isLoggedIn = (req, res, next) => {
+    if (req.isAuthenticated()) {
+        return next();
+    } 
+
+    res.redirect("/");
+}
+
 exports.authenticate = passport.authenticate("local", {
     successRedirect: "/home",
-    failureRedirect: "/"
+    failureRedirect: "/",
+    failureMessage: true
 });

@@ -25,5 +25,9 @@
             <% }) %>
         </ul>
     <% } %>
+
+    <% if (locals.usernameTaken) { %>
+        <p><%= usernameTaken %></p>
+    <% } %>
 </body>
 </html>
