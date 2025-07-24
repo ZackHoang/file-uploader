@@ -16,25 +16,26 @@ exports.displayNewFileForm = [
 exports.uploadFile = [
     upload.single("file"), 
     async (req, res, next) => {
-        console.log(req.file);
-        console.log(await req.user);
-        console.log(await req.user.username);
-        fs.writeFile(`./files/${req.file.originalname}`, req.file.buffer, async err => {
-            if (err) {
-                console.error(err);
-                console.log(req.user);
-                console.log(req.user.username);
-            } else {
-                await prisma.file.create({
-                    data: {
-                        name: req.file.originalname, 
-                        size: req.file.size, 
-                        url: "something",
-                        author: req.user.username
-                    }
-                });
-                res.redirect("/home");
-            }
-        });
+        if (req.file.mimetype.includes("image") || req.file.mimetype.includes("video")) {
+            fs.writeFile(`./files/${req.file.originalname}`, req.file.buffer, async err => {
+                if (err) {
+                    console.error(err);
+                } else {
+                    await prisma.file.create({
+                        data: {
+                            name: req.file.originalname, 
+                            size: req.file.size, 
+                            url: "something",
+                            author: req.user.username
+                        }
+                    });
+                    res.redirect("/home");
+                }
+            });
+        } else {
+            res.render("new-file", {
+                error: "Unappropriate file. Please upload only image or video."
+            });
+        }
     }
 ];

@@ -9,7 +9,10 @@
     <h1>New File</h1>
     <form action="/new-file" method="POST" enctype="multipart/form-data">
         <label for="file">Upload a File</label>
-        <input type="file" name="file" id="file" accept="image/*, video/*">
+        <input type="file" name="file" id="file" accept=".jpg, .jpeg, .png, video/*">
+        <% if (locals.error) {%>
+            <p><%= error %></p>
+        <% } %>
         <button type="submit">Submit</button>
     </form>
 </body>

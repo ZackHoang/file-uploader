@@ -17,11 +17,11 @@
         <% if (files) { %>
             <% files.forEach((file) => { %>
                 <div>
-                    <img src="<%= file.name %>">
                     <h3><%= file.name %></h3>
                     <p><%= file.createdAt %></p>
                     <p><%= file.updatedAt %></p>
                     <p><%= file.size %></p>
+                    <img src="<%= file.name %>">
                 </div>
             <% }) %>
         <% } %>
