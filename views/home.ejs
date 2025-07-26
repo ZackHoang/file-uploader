@@ -11,19 +11,30 @@
     <div>
         <h2>Upload</h2>
         <div>
-            <a href="/new-folder">New Folder</a>
-            <a href="/new-file">New File</a>
+            <a href="/new-folder/<%= parentID %>">New Folder</a>
+            <a href="/new-file/<%= parentID %>">New File</a>
         </div>
-        <% if (files) { %>
-            <% files.forEach((file) => { %>
-                <div>
-                    <h3><%= file.name %></h3>
-                    <p><%= file.createdAt %></p>
-                    <p><%= file.updatedAt %></p>
-                    <p><%= file.size %></p>
-                    <img src="<%= file.name %>">
-                </div>
-            <% }) %>
+        <% if (locals.folders) { %>
+            <h2>Folders</h2>
+            <div>
+                <% locals.folders.forEach((folder) => { %>
+                    <div>
+                        <a href="/home/<%= folder.id %>"> <%= folder.name %> </a>
+                        <a href="/home/delete/<%= folder.id %>">Delete</a>
+                    </div>
+                <% }) %>
+            </div>
+        <% } %>
+        <% if (locals.files) { %>
+            <h2>Files</h2>
+            <div>
+                <% locals.files.forEach((file) => { %>
+                    <div>
+                        <img src="../files/<%= file.name %>">
+                        <h3><%= file.name %></h3>
+                    </div>
+                <% }) %>
+            </div>
         <% } %>
         <a href="/log-out">LOG OUT </a>
     </div>

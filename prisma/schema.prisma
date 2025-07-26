@@ -18,18 +18,14 @@ model User {
   id  Int  @id @default(autoincrement())
   username String @unique
   password String
-  folders Folder[]
   @@map("users")
 }
 
 model Folder {
   id String @id @default(uuid())
   name String 
-  userID Int
-  author User @relation(fields: [userID], references: [id])
-  parentID String? @unique
-  parent Folder? @relation("ParentChildren", references: [parentID], fields: [id])
-  children Folder[] @relation("ParentChildren")
+  author String
+  parentID String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   @@map("folders")
@@ -37,10 +33,10 @@ model Folder {
 
 model File {
   id Int @id @default(autoincrement())
-  name String
+  name String @unique
   size Int
   author String
-  folderID String @default(".")
+  parentID String @default(".")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   url String

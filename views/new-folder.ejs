@@ -7,9 +7,10 @@
 </head>
 <body>
     <h1>New Folder</h1>
-    <form action="/new-folder" method="POST">
+    <form action="/new-folder/<%= parentID %>" method="POST">
         <label for="folder">Folder Name</label>
         <input type="text" name="folder" id="folder">
+        <button type="submit">Submit</button>
     </form>
 </body>
 </html>

@@ -9,13 +9,15 @@ const prisma = new PrismaClient();
 exports.displayNewFileForm = [
     isLoggedIn,
     (req, res, next) => {
-        res.render("new-file");
+        res.render("new-file", {
+            parentID: req.params.parentID
+        });
     }
 ];
 
 exports.uploadFile = [
     upload.single("file"), 
-    async (req, res, next) => {
+    async (req, res) => {
         if (req.file.mimetype.includes("image") || req.file.mimetype.includes("video")) {
             fs.writeFile(`./files/${req.file.originalname}`, req.file.buffer, async err => {
                 if (err) {
@@ -25,11 +27,12 @@ exports.uploadFile = [
                         data: {
                             name: req.file.originalname, 
                             size: req.file.size, 
-                            url: "something",
-                            author: req.user.username
+                            author: req.user.username,
+                            parentID: req.params.parentID,
+                            url: "something"
                         }
                     });
-                    res.redirect("/home");
+                    res.redirect(`/home/${req.params.parentID}`);
                 }
             });
         } else {

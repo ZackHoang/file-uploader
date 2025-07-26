@@ -7,7 +7,7 @@
 </head>
 <body>
     <h1>New File</h1>
-    <form action="/new-file" method="POST" enctype="multipart/form-data">
+    <form action="/new-file/<%= parentID %>" method="POST" enctype="multipart/form-data">
         <label for="file">Upload a File</label>
         <input type="file" name="file" id="file" accept=".jpg, .jpeg, .png, video/*">
         <% if (locals.error) {%>
