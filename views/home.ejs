@@ -30,8 +30,9 @@
             <div>
                 <% locals.files.forEach((file) => { %>
                     <div>
-                        <img src="../files/<%= file.name %>">
                         <h3><%= file.name %></h3>
+                        <img src="../files/<%= file.name %>">
+                        <a href="/home/delete/<%= file.id %>">Delete</a>
                     </div>
                 <% }) %>
             </div>
