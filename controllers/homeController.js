@@ -4,7 +4,15 @@ const prisma = new PrismaClient();
 
 exports.displayHome = [
     isLoggedIn,
-    async(req, res, next) => {
+    async(req, res) => {
+        const isFolderExist = await prisma.folder.findUnique({
+            where: {
+                id: req.params.parentID
+            }
+        }).length > 0 || req.params.parentID === "root"; 
+        if (isFolderExist === false) {
+            return res.redirect("/home/root");
+        }
         const folders = await prisma.folder.findMany({
             where: {
                 author: req.user.username,
@@ -17,8 +25,6 @@ exports.displayHome = [
                 parentID: req.params.parentID
             }, 
         });
-        // console.log(folders);
-        // console.log(files);
         res.render("home", {
             parentID: req.params.parentID,
             folders: folders,
