@@ -20,7 +20,8 @@
                 <% locals.folders.forEach((folder) => { %>
                     <div>
                         <a href="/home/<%= folder.id %>"> <%= folder.name %> </a>
-                        <a href="/home/delete/<%= folder.id %>">Delete</a>
+                        <a href="/home/update/folder/<%= folder.id %>">Update</a>
+                        <a href="/home/delete/folder/<%= folder.id %>">Delete</a>
                     </div>
                 <% }) %>
             </div>
@@ -30,9 +31,11 @@
             <div>
                 <% locals.files.forEach((file) => { %>
                     <div>
-                        <h3><%= file.name %></h3>
                         <img src="../files/<%= file.name %>">
-                        <a href="/home/delete/<%= file.id %>">Delete</a>
+                        <h3><%= file.name %></h3>
+                        <p><%= file.createdAt %></p>
+                        <p><%= file.size %></p>
+                        <a href="/home/delete/file/<%= file.id %>">Delete</a>
                     </div>
                 <% }) %>
             </div>

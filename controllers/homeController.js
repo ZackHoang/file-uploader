@@ -1,3 +1,4 @@
+const { body, validationResult } = require("express-validator");
 const { isLoggedIn } = require("../auth/passportConfig");
 const { PrismaClient } = require("../generated/prisma");
 const prisma = new PrismaClient();
@@ -52,5 +53,31 @@ exports.displayHome = [
             folders: folders,
             files: files
         });
+    }
+]
+
+exports.displayUpdateFolderForm = (req, res) => {
+    res.render("update-folder", {
+        folderID: req.params.folderID
+    });
+}
+
+const validateUpdateFolder = [body("folder").trim().notEmpty().withMessage("Folder name cannot be empty")];
+
+exports.updateFolder = [
+    validateUpdateFolder,
+    async (req, res) => {
+        const error = validationResult(req);
+        if (!error.isEmpty()) {
+            return res.status(400).render("update-folder", {
+                folderID: req.params.folderID, 
+                error: error.array()[0].msg
+            })
+        }
+        const folder = await prisma.folder.update({
+            where: { id: req.params.folderID },
+            data: { name: req.body.folder }
+        }); 
+        res.redirect(`/home/${folder.parentID}`);
     }
 ]
