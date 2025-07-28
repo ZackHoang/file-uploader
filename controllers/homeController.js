@@ -75,9 +75,56 @@ exports.updateFolder = [
             })
         }
         const folder = await prisma.folder.update({
-            where: { id: req.params.folderID },
-            data: { name: req.body.folder }
+            where: { 
+                id: req.params.folderID,
+                author: req.user.username
+            },
+            data: { 
+                name: req.body.folder 
+            }
         }); 
         res.redirect(`/home/${folder.parentID}`);
     }
 ]
+
+exports.deleteFolder = async (req, res) => {
+    let visitedFoldersID = [];
+    let queue = [req.params.folderID];
+    while (queue.length > 0) {
+        const parentID = queue.shift();
+        const childFolders = await prisma.folder.findMany({
+            where: {
+                author: req.user.username,
+                parentID: parentID
+            }
+        });
+        if (childFolders.length > 0) {
+            childFolders.forEach((folder) => {
+                queue.push(folder.id);
+            })
+        }
+        visitedFoldersID.push(parentID);
+    };
+    // console.log(visitedFoldersID);
+    visitedFoldersID.forEach( async (id) => {
+        await prisma.folder.delete({
+            where: {
+                id: id,
+                author: req.user.username, 
+            }
+        });
+        await prisma.file.deleteMany({
+            where: {
+                author: req.user.username,
+                parentID: id
+            }
+        });
+    });
+    const { parentID } = await prisma.folder.findFirst({
+        where: {
+            author: req.user.username,
+            parentID: req.params.parentID
+        }
+    });
+    res.redirect(`/home/${parentID}`);
+}

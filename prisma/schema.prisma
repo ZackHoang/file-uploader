@@ -33,10 +33,10 @@ model Folder {
 
 model File {
   id Int @id @default(autoincrement())
-  name String @unique
+  name String
   size Int
   author String
-  parentID String @default(".")
+  parentID String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   url String
