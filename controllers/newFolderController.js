@@ -8,7 +8,10 @@ const validateFolder = [
     body("folder")
         .trim()
         .notEmpty()
-        .withMessage("Folder name must not be empty.")
+        .withMessage("Folder name must not be empty")
+        .not()
+        .matches("root")
+        .withMessage('Folder name must not be "root"')
 ]
 
 exports.displayNewFolderForm = (req, res, next) => {
@@ -24,7 +27,8 @@ exports.addFolder = [
         const error = validationResult(req);
         if (!error.isEmpty()) {
             return res.status(400).render("new-folder", {
-                error: error.array()
+                parentID: req.params.parentID,
+                error: error.array()[0].msg
             })
         }
         await prisma.folder.create({

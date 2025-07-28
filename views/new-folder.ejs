@@ -12,5 +12,8 @@
         <input type="text" name="folder" id="folder">
         <button type="submit">Submit</button>
     </form>
+    <% if (locals.error) { %>
+        <p><%= error %></p>
+    <% } %>
 </body>
 </html>
