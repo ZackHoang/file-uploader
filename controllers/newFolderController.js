@@ -38,6 +38,6 @@ exports.addFolder = [
                 parentID: req.params.parentID,
             }
         });
-        res.redirect(`/home/${req.params.parentID}`);
+        res.redirect(`/home/folder/${req.params.parentID}`);
     }
 ]

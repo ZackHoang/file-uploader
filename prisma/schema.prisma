@@ -32,7 +32,7 @@ model Folder {
 }
 
 model File {
-  id Int @id @default(autoincrement())
+  id String @id @default(uuid())
   name String
   size Int
   author String

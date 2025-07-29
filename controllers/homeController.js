@@ -33,7 +33,7 @@ exports.displayHome = [
                 }
             }); 
             if (isFolderExist === null) {
-                return res.redirect("/home/root");
+                return res.redirect("/home/folder/root");
             }
         }
         const folders = await prisma.folder.findMany({
@@ -55,6 +55,18 @@ exports.displayHome = [
         });
     }
 ]
+
+exports.displayFileInformation = async (req, res) => {
+    const file = await prisma.file.findUnique({
+        where: {
+            author: req.user.username, 
+            id: req.params.fileID
+        }
+    });
+    res.render("file-info", {
+        file: file
+    });
+}
 
 exports.displayUpdateFolderForm = (req, res) => {
     res.render("update-folder", {
@@ -83,7 +95,7 @@ exports.updateFolder = [
                 name: req.body.folder 
             }
         }); 
-        res.redirect(`/home/${folder.parentID}`);
+        res.redirect(`/home/folder/${folder.parentID}`);
     }
 ]
 
@@ -126,5 +138,15 @@ exports.deleteFolder = async (req, res) => {
             parentID: req.params.parentID
         }
     });
-    res.redirect(`/home/${parentID}`);
+    res.redirect(`/home/folder/${parentID}`);
+}
+
+exports.deleteFile = async (req, res) => {
+    const file = await prisma.file.delete({
+        where: {
+            author: req.user.username, 
+            id: req.params.fileID
+        }
+    });
+    res.redirect(`/home/folder/${file.parentID}`);
 }

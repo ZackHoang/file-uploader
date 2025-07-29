@@ -32,7 +32,7 @@ exports.uploadFile = [
                             url: "something"
                         }
                     });
-                    res.redirect(`/home/${req.params.parentID}`);
+                    res.redirect(`/home/folder/${req.params.parentID}`);
                 }
             });
         } else {
