@@ -1,7 +1,10 @@
+require("dotenv").config();
 const { body, validationResult } = require("express-validator");
 const { isLoggedIn } = require("../auth/passportConfig");
 const { PrismaClient } = require("../generated/prisma");
 const prisma = new PrismaClient();
+const cloudinary = require("cloudinary").v2;
+cloudinary.config();
 
 const checkRootFolder = async (req, res, next) => {
     const isRootExist = await prisma.folder.findFirst({
@@ -56,6 +59,18 @@ exports.displayHome = [
     }
 ]
 
+function formatBytes(bytes, decimals = 2) {
+    if (!+bytes) return '0 Bytes'
+
+    const k = 1024
+    const dm = decimals < 0 ? 0 : decimals
+    const sizes = ['Bytes', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB']
+
+    const i = Math.floor(Math.log(bytes) / Math.log(k))
+
+    return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`
+}
+
 exports.displayFileInformation = async (req, res) => {
     const file = await prisma.file.findUnique({
         where: {
@@ -64,7 +79,8 @@ exports.displayFileInformation = async (req, res) => {
         }
     });
     res.render("file-info", {
-        file: file
+        file: file,
+        size: formatBytes(file.size)
     });
 }
 
@@ -95,11 +111,21 @@ exports.updateFolder = [
                 name: req.body.folder 
             }
         }); 
-        res.redirect(`/home/folder/${folder.parentID}`);
+        if (folder.parentID === "root") {
+            res.redirect(`/home/folder/root`); 
+        } else {
+            res.redirect(`/home/folder/${folder.parentID}`);
+        }
     }
 ]
 
 exports.deleteFolder = async (req, res) => {
+    const { parentID } = await prisma.folder.findFirst({
+        where: {
+            id: req.params.folderID,
+            author: req.user.username,
+        }
+    });
     let visitedFoldersID = [];
     let queue = [req.params.folderID];
     while (queue.length > 0) {
@@ -117,7 +143,6 @@ exports.deleteFolder = async (req, res) => {
         }
         visitedFoldersID.push(parentID);
     };
-    // console.log(visitedFoldersID);
     visitedFoldersID.forEach( async (id) => {
         await prisma.folder.delete({
             where: {
@@ -125,17 +150,24 @@ exports.deleteFolder = async (req, res) => {
                 author: req.user.username, 
             }
         });
-        await prisma.file.deleteMany({
+        const files = await prisma.file.findMany({
             where: {
-                author: req.user.username,
+                author: req.user.username, 
                 parentID: id
             }
         });
-    });
-    const { parentID } = await prisma.folder.findFirst({
-        where: {
-            author: req.user.username,
-            parentID: req.params.parentID
+        if (files.length === 0) {
+            return;
+        } else {
+            files.forEach(async (file) => {
+                await cloudinary.uploader.destroy(`${file.cloudinaryID}`);
+            });
+            await prisma.file.deleteMany({
+                where: {
+                    author: req.user.username,
+                    parentID: id
+                }
+            });
         }
     });
     res.redirect(`/home/folder/${parentID}`);
@@ -148,5 +180,6 @@ exports.deleteFile = async (req, res) => {
             id: req.params.fileID
         }
     });
+    await cloudinary.uploader.destroy(`${file.cloudinaryID}`);
     res.redirect(`/home/folder/${file.parentID}`);
 }

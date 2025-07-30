@@ -8,11 +8,11 @@
 <body>
     <h1>Details</h1>
     <div>
-        <img src="/files/<%= file.name %>"/>
+        <img src="<%= file.url %>"/>
         <h2>Name: <%= file.name %></h2>
-        <h3>Size: <%= file.size %></h3>
+        <h3>Size: <%= size %></h3>
         <h3>Upload Date: <%= file.createdAt.toLocaleString() %></h3>
-        <a href="/files/<%= file.name %>" download="<%= file.name %>">Download</a>
+        <a href="<%= file.url %>" download>Download</a>
         <a href="/home/file/delete/<%= file.id %>">Delete</a>
     </div>
 </body>

@@ -33,6 +33,7 @@ model Folder {
 
 model File {
   id String @id @default(uuid())
+  cloudinaryID String @unique
   name String
   size Int
   author String
