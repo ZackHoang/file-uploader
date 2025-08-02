@@ -51,7 +51,7 @@ exports.isLoggedIn = (req, res, next) => {
 }
 
 exports.authenticate = passport.authenticate("local", {
-    successRedirect: "/home/root",
+    successRedirect: "/home/folder/root",
     failureRedirect: "/",
     failureMessage: true
 });

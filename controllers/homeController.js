@@ -5,6 +5,7 @@ const { PrismaClient } = require("../generated/prisma");
 const prisma = new PrismaClient();
 const cloudinary = require("cloudinary").v2;
 cloudinary.config();
+const path = require("node:path");
 
 const checkRootFolder = async (req, res, next) => {
     const isRootExist = await prisma.folder.findFirst({
@@ -78,9 +79,13 @@ exports.displayFileInformation = async (req, res) => {
             id: req.params.fileID
         }
     });
+    const fileDownloadUrl = await cloudinary.url(file.cloudinaryID, {
+        flags: `attachment`, 
+    });
     res.render("file-info", {
         file: file,
-        size: formatBytes(file.size)
+        size: formatBytes(file.size), 
+        fileDownloadUrl: fileDownloadUrl
     });
 }
 

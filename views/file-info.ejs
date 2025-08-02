@@ -12,7 +12,7 @@
         <h2>Name: <%= file.name %></h2>
         <h3>Size: <%= size %></h3>
         <h3>Upload Date: <%= file.createdAt.toLocaleString() %></h3>
-        <a href="<%= file.url %>" download>Download</a>
+        <a href="<%= fileDownloadUrl %>" download>Download</a>
         <a href="/home/file/delete/<%= file.id %>">Delete</a>
     </div>
 </body>
