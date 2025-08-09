@@ -11,9 +11,10 @@ const validateSignup = [
     body("username")
         .trim()
         .notEmpty()
-        .withMessage("username cannot be empty"),
+        .withMessage("username cannot be empty")
+        .isAlphanumeric()
+        .withMessage("username can only contain letters and numbers"),
     body("password")
-        .trim()
         .notEmpty()
         .withMessage("password cannot be empty")
 ]

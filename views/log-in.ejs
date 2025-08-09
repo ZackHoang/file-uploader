@@ -3,24 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/forms.css">
+    <link rel="stylesheet" href="/css/styles.css">
     <title>Log In</title>
 </head>
 <body>
-    <h1>Log In</h1>
-    <form action="/" method="POST">
+    <header>
+        <h1>MyDrive</h1>
         <div>
-            <label for="username">Username</label>
-            <input type="text" name="username" id="username">
+            <a href="/">Log In</a>
+            <a href="/sign-up">Sign Up</a>
         </div>
-        <div>
-            <label for="password">Password</label>
-            <input type="password" name="password" id="password">
-        </div>
-        <button type="submit">Submit</button>
-    </form>
-    <% if (session.messages) { %>
-        <p><%= session.messages[0] %></p>
-    <% } %>
-    <p>Don't have an account? <a href="/sign-up">Sign up now!</a></p>
+    </header>
+    <main>
+        <form action="/" method="POST">
+            <h2>Log In</h2>
+            <div>
+                <label for="username">Username</label>
+                <input type="text" name="username" id="username">
+            </div>
+            <div>
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password">
+            </div>
+            <button type="submit">Submit</button>
+            <% if (session.messages) { %>
+                <div>
+                    <h2>Error:</h2>
+                    <p><%= session.messages[0] %></p>
+                </div>
+            <% } %>
+            <p>Don't have an account?</p>
+            <a href="/sign-up">Sign up now!</a>
+        </form>
+    </main>
 </body>
 </html>

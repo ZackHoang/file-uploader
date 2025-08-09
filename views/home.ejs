@@ -3,41 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" href="/css/styles.css">
     <title>Home</title>
 </head>
 <body>
-    <h1>Home page</h1>
-    <h2>Welcome, <%= currentUser.username %>!</h2>
-    <div>
-        <h2>Upload</h2>
+    <header>
+        <h1>MyDrive</h1>
         <div>
             <a href="/new-folder/<%= parentID %>">New Folder</a>
             <a href="/new-file/<%= parentID %>">New File</a>
+            <a href="/log-out">LOG OUT </a>
         </div>
+    </header>
+    <main>
         <% if (locals.folders) { %>
-            <h2>Folders</h2>
-            <div>
-                <% locals.folders.forEach((folder) => { %>
-                    <div>
-                        <a href="/home/folder/<%= folder.id %>"> <%= folder.name %> </a>
-                        <a href="/home/folder/update/<%= folder.id %>">Update</a>
-                        <a href="/home/folder/delete/<%= folder.id %>">Delete</a>
-                    </div>
-                <% }) %>
-            </div>
+            <section>
+                <h2>Folders</h2>
+                <div class="folders-container">
+                    <% locals.folders.forEach((folder) => { %>
+                        <div class="folders">
+                            <a href="/home/folder/<%= folder.id %>"> <%= folder.name %> </a>
+                            <div>
+                                <a href="/home/folder/update/<%= folder.id %>">Update</a>
+                                <a href="/home/folder/delete/<%= folder.id %>">Delete</a>
+                            </div>
+                        </div>
+                    <% }) %>
+                </div>
+            </section>
         <% } %>
         <% if (locals.files) { %>
-            <h2>Files</h2>
-            <div>
-                <% locals.files.forEach((file) => { %>
-                    <div>
-                        <img src="<%= file.url %>">
-                        <a href="/home/file/<%= file.id %>"><%= file.name %></a>
-                    </div>
-                <% }) %>
-            </div>  
+            <section>
+                <h2>Files</h2>
+                <div class="files-container">
+                    <% locals.files.forEach((file) => { %>
+                        <div class="files">
+                            <img src="<%= file.url %>">
+                            <a href="/home/file/<%= file.id %>"><%= file.name %></a>
+                        </div>
+                    <% }) %>
+                </div>
+            </section>  
         <% } %>
-        <a href="/log-out">LOG OUT </a>
-    </div>
+    </main>
 </body>
 </html>

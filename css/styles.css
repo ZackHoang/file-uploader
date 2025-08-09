@@ -1,0 +1,37 @@
+:root {
+    background-color: #2d2d30;
+    color: white;
+    font-family: monospace;
+}
+
+body {
+    margin: 0;
+}
+
+header {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #1e1e1e;
+    padding: 1rem;
+}
+
+a {
+    color: black;
+    background-color: #4AE3B5;
+    padding: 1rem;
+    font-weight: bold;
+}
+
+a:visited {
+    text-decoration: none;
+    color: black;
+}
+
+@media (width >= 48em) {
+    header {
+        flex-direction: row;
+    }
+}
+

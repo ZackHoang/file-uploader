@@ -1,0 +1,43 @@
+main {
+    padding: 2rem;
+}
+.folders-container {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+
+.folders {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.folders div {
+    display: flex;
+}
+
+.files-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    gap: 3rem;
+}
+
+.files {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.files img {
+    max-width: 75%;
+}
+
+@media (width >= 26.5625em) {
+    .files-container {
+        grid-template-columns: repeat(auto-fit, minmax(10%, 1fr));
+        grid-template-rows: repeat(auto-fit, minmax(10%, 1fr));
+    }
+}

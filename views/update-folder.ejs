@@ -3,17 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/forms.css">
+    <link rel="stylesheet" href="/css/styles.css">
     <title>Update Folder</title>
 </head>
 <body>
-    <h1>Update Folder</h1>
-    <form action="/home/folder/update/<%= folderID %>" method="POST">
-        <label for="folder">New Name</label>
-        <input type="text" name="folder" id="folder">
-        <button type="submit">Submit</button>
-    </form>
-    <% if (locals.error) { %>
-        <p><%= error %></p>
-    <% } %>
+    <header>
+        <h1>MyDrive</h1>
+        <a href="/home/folder/<%= parentID %>">Back</a>
+    </header>
+    <main>
+        <form action="/home/folder/update/<%= folderID %>" method="POST">
+            <h1>Update Folder</h1>
+            <div>
+                <label for="folder">New Name</label>
+                <input type="text" name="folder" id="folder">
+            </div>
+            <% if (locals.error) { %>
+                <p><%= error %></p>
+            <% } %>
+            <button type="submit">Submit</button>
+        </form>
+    </main>
 </body>
 </html>

@@ -3,11 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/forms.css">
+    <link rel="stylesheet" href="/css/styles.css">
     <title>New File</title>
 </head>
 <body>
-    <h1>New File</h1>
+    <header>
+        <h1>MyDrive</h1>
+        <a href="/home/folder/<%= parentID %>">Back</a>
+    </header>
+    <main>
     <form action="/new-file/<%= parentID %>" method="POST" enctype="multipart/form-data">
+        <h2>New File</h2>
         <label for="file">Upload a File</label>
         <input type="file" name="file" id="file" accept=".jpg, .jpeg, .png, video/*">
         <% if (locals.error) {%>
@@ -15,5 +22,6 @@
         <% } %>
         <button type="submit">Submit</button>
     </form>
+    </main>
 </body>
 </html>

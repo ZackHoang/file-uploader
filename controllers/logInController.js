@@ -3,7 +3,6 @@ const { authenticate } = require("../auth/passportConfig");
 
 const validateLogIn = [
     body("username").trim(),
-    body("password").trim()
 ];
 
 exports.displayLogIn = (req, res, next) => {

@@ -3,30 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/forms.css">
+    <link rel="stylesheet" href="../css/styles.css">
     <title>Sign Up</title>
 </head>
 <body>
-    <h1>Sign Up</h1>
-    <form action="/sign-up" method="POST">
+    <header>
+        <h1>MyDrive</h1>
         <div>
-            <label for="username">Username</label>
-            <input type="text" name="username" id="username" required>
+            <a href="/">Log In</a>
+            <a href="/sign-up">Sign Up</a>
         </div>
-        <div>
-            <label for="password">Password</label>
-            <input type="password" name="password" id="password" required>
-        </div>
-        <button type="submit">Submit</button>
-    </form>
-    <% if (locals.errors) { %>
-        <ul>
-            <% locals.errors.forEach((error) => { %>
-                <li><%= error.msg %></li>
-            <% }) %>
-        </ul>
-    <% } %>
-    <% if (locals.usernameTaken) { %>
-        <p><%= usernameTaken %></p>
-    <% } %>
+    </header>
+    <main>
+        <form action="/sign-up" method="POST">
+            <h2>Sign Up</h2>
+            <div>
+                <label for="username">Username</label>
+                <input type="text" name="username" id="username" required>
+            </div>
+            <div>
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" required>
+            </div>
+            <button type="submit">Submit</button>
+            <% if (locals.errors) { %>
+                <div>
+                    <h3>Error:</h3>
+                    <ul>
+                        <% locals.errors.forEach((error) => { %>
+                            <li><%= error.msg %></li>
+                        <% }) %>
+                    </ul>
+                </div>
+            <% } %>
+            <% if (locals.usernameTaken) { %>
+                <div>
+                    <h3>Error:</h3>
+                    <p><%= usernameTaken %></p>
+                </div>
+            <% } %>
+        </form>
+    </main>
 </body>
 </html>

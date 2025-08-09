@@ -89,9 +89,15 @@ exports.displayFileInformation = async (req, res) => {
     });
 }
 
-exports.displayUpdateFolderForm = (req, res) => {
+exports.displayUpdateFolderForm = async (req, res) => {
+    const folderToUpdate = await prisma.folder.findUnique({
+        where: {
+            id: req.params.folderID
+        }
+    })
     res.render("update-folder", {
-        folderID: req.params.folderID
+        parentID: folderToUpdate.parentID,
+        folderID: folderToUpdate.id
     });
 }
 

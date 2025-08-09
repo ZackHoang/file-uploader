@@ -21,6 +21,8 @@ app.use(session(prismaSession));
 app.use(passport.session());
 app.use(express.urlencoded({ extended: true }));
 app.use( async (req, res, next) => {
+    // console.log(req.user);
+    // console.log(req.session);
     res.locals.currentUser = req.user;
     res.locals.session = req.session;
     return next();
