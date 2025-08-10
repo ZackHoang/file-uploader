@@ -18,6 +18,7 @@ exports.displayNewFileForm = [
 ];
 
 exports.uploadFile = [
+    isLoggedIn,
     upload.single("file"), 
     async (req, res) => {
         if (req.file.mimetype.includes("image")) {
