@@ -35,7 +35,7 @@ exports.signup = [
                     password: await bcrypt.hash(req.body.password, 10)
                 }
             });
-            res.redirect("/home");
+            res.redirect("/");
         } catch {
             res.render("sign-up", {
                 usernameTaken: "This username is taken, please choose another one."
