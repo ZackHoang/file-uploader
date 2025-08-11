@@ -22,6 +22,12 @@ exports.uploadFile = [
     upload.single("file"), 
     async (req, res) => {
         if (req.file.mimetype.includes("image")) {
+            if (req.file.size > 1_000_000) {
+                res.render("new-file", {
+                    error: "Your image is too big. Please upload images with under 1 megabytes",
+                    parentID: req.params.parentID
+                })
+            }
             try {
                 const result = await new Promise((resolve) => {
                     cloudinary.uploader.upload_stream((error, uploadResult) => {
@@ -44,7 +50,8 @@ exports.uploadFile = [
             }
         } else {
             res.render("new-file", {
-                error: "Unappropriate file. Please upload only image"
+                error: "Unappropriate file. Please upload only image", 
+                parentID: req.params.parentID
             });
         }
     }

@@ -35,6 +35,13 @@ main {
     max-width: 75%;
 }
 
+ul {
+    display: flex;
+    gap: 1rem;
+    list-style-type: none;
+    align-items: center;
+}
+
 @media (width >= 26.5625em) {
     .files-container {
         grid-template-columns: repeat(auto-fit, minmax(10%, 1fr));

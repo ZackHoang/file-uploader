@@ -40,6 +40,23 @@ exports.displayHome = [
                 return res.redirect("/home/folder/root");
             }
         }
+        let foldersNav = [];
+        let currentParentID = req.params.parentID;
+        while (currentParentID !== "root") {
+            const currentFolder = await prisma.folder.findUnique({
+                where: {
+                    id: currentParentID, 
+                    author: req.user.username
+                }
+            });
+            foldersNav.unshift(currentFolder);
+            currentParentID = currentFolder.parentID;
+        }
+        foldersNav.unshift({
+            name: "root",
+            id: "root"
+        });
+        console.log(foldersNav);
         const folders = await prisma.folder.findMany({
             where: {
                 author: req.user.username,
@@ -53,12 +70,13 @@ exports.displayHome = [
             }, 
         });
         res.render("home", {
+            foldersNav: foldersNav,
             parentID: req.params.parentID,
             folders: folders,
             files: files
         });
     }
-]
+];
 
 function formatBytes(bytes, decimals = 2) {
     if (!+bytes) return '0 Bytes'

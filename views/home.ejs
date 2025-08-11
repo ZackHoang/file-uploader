@@ -17,6 +17,18 @@
         </div>
     </header>
     <main>
+        <h2>Current Folder: <%= foldersNav[foldersNav.length - 1].name %></h2>
+        <section class="navigation">
+            <h2>Navigation</h2>
+            <ul>
+                <% for (let i = 0; i < foldersNav.length; i++) { %>
+                    <li><a href="/home/folder/<%= foldersNav[i].id %>"><%= foldersNav[i].name %></a></li>
+                    <% if (i < foldersNav.length - 1) { %>
+                        <p>&rarr;</p>
+                    <% } %>
+                <% } %>
+            </ul>
+        </section>  
         <% if (locals.folders) { %>
             <section>
                 <h2>Folders</h2>
