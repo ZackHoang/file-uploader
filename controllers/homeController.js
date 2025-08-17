@@ -56,7 +56,7 @@ exports.displayHome = [
             name: "root",
             id: "root"
         });
-        console.log(foldersNav);
+        // console.log(foldersNav);
         const folders = await prisma.folder.findMany({
             where: {
                 author: req.user.username,

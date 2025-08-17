@@ -7,6 +7,7 @@ const { PrismaClient } = require("../generated/prisma");
 const prisma = new PrismaClient();
 const cloudinary = require('cloudinary').v2;
 cloudinary.config();
+const { fileTypeFromBuffer } = require("file-type");
 
 exports.displayNewFileForm = [
     isLoggedIn,
@@ -21,7 +22,10 @@ exports.uploadFile = [
     isLoggedIn,
     upload.single("file"), 
     async (req, res) => {
-        if (req.file.mimetype.includes("image")) {
+        const type = await fileTypeFromBuffer(req.file.buffer);
+        const allowedTypes = ["image/png", "image/jpeg"];
+        console.log(type);
+        if (allowedTypes.includes(type.mime)) {
             if (req.file.size > 1_000_000) {
                 res.render("new-file", {
                     error: "Your image is too big. Please upload images with under 1 megabytes",
