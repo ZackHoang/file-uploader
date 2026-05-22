@@ -1,8 +1,6 @@
 # file-uploader
 
-## Description
-
-A stripped-down Google Drive app
+A stripped-down Google Drive app using ExpressJS and PostgreSQL
 
 ## Live Preview
 
