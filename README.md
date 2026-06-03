@@ -1,4 +1,4 @@
-# file-uploader
+# MyDrive
 
 A stripped-down Google Drive app using ExpressJS and PostgreSQL
 
